@@ -2,23 +2,28 @@ package org.aplicacao.view;
 
 import org.aplicacao.controller.InvalidInputException;
 import org.aplicacao.model.MenuInicial;
+import org.aplicacao.service.MenuInicialService;
 
 import java.util.Scanner;
 
 public class MenuInicialView {
-    MenuInicial menuInicial = new MenuInicial();
-    Scanner scanner = new Scanner(System.in);
+    private MenuInicial menuInicial = new MenuInicial();
+    private MenuInicialService menuInicialService = new MenuInicialService();
+    private Scanner scanner = new Scanner(System.in);
 
     public void showQuestions() {
+        System.out.println();
         for (int i = 0; i < menuInicial.getPerguntas().size(); i++) {
             System.out.println(menuInicial.getPerguntas().get(i));
         }
+        System.out.println();
     }
 
-    public void getUserAnswer() {
+    public Integer getUserAnswer() {
+        System.out.println("Por favor digite a opção que quer executar");
         Integer answer = scanner.nextInt();
-        if(answer.getClass() != Integer.class){
-            throw new InvalidInputException("Insira um número inteiro correspondente a opção que deseja executar");
-        }
+        menuInicialService.menuInicialUserAnswerExceptionLogic(answer);
+        return answer;
     }
+
 }
