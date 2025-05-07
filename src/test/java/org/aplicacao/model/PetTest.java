@@ -1,5 +1,6 @@
 package org.aplicacao.model;
 
+import org.aplicacao.controller.InvalidNameException;
 import org.aplicacao.controller.InvalidPetAgeException;
 import org.aplicacao.controller.InvalidPetWeightException;
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,27 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PetTest {
     Pet dog = new Pet();
+
+
+    @Test
+    void shouldThrownExceptionIfNameIsEmpty(){
+        InvalidNameException exception = assertThrows(InvalidNameException.class,()-> dog.setNomeCompleto("  "));
+    }
+
+    @Test
+    void shouldThrownExceptionIfNameIsNull(){
+        InvalidNameException exception = assertThrows(InvalidNameException.class,()-> dog.setNomeCompleto(null));
+    }
+
+    @Test
+    void shouldThrownExceptionIfPetNameContainsSpecialCharactersOrNumbers(){
+        InvalidNameException exception = assertThrows(InvalidNameException.class,()-> dog.setNomeCompleto("Marcelo D2"));
+    }
+
+    @Test
+    void shouldThrownExceptionIfPetDoesntHaveLastName(){
+        InvalidNameException exception = assertThrows(InvalidNameException.class,()-> dog.setNomeCompleto("Marcelo  "));
+    }
 
     @Test
     void shouldThrownExceptionIfWeightAboveSixty(){

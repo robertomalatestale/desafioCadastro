@@ -1,5 +1,6 @@
 package org.aplicacao.model;
 
+import org.aplicacao.controller.InvalidNameException;
 import org.aplicacao.controller.InvalidPetAgeException;
 import org.aplicacao.controller.InvalidPetWeightException;
 
@@ -16,7 +17,34 @@ public class Pet {
     }
 
     public void setNomeCompleto(String nomeCompleto) {
-
+        if(nomeCompleto == null || nomeCompleto.trim().isEmpty()){
+            throw new InvalidNameException("Deve cadastrar um nome para o pet");
+        }
+        for(int i = 0; i<nomeCompleto.length(); i++){
+            if(!Character.isLetter(nomeCompleto.charAt(i)) && !Character.isWhitespace(nomeCompleto.charAt(i))){
+                throw new InvalidNameException("Nome deve conter somente letras");
+            }
+        }
+        int auxiliary = 0;
+        for(int i =0; i<nomeCompleto.length(); i++){
+            if(Character.isWhitespace(nomeCompleto.charAt(i))){
+                auxiliary = i;
+                break;
+            }
+        }
+        if(auxiliary == 0){
+            throw new InvalidNameException("Pet deve ter um sobrenome");
+        }
+        boolean temSobrenome = false;
+        for(int i = auxiliary + 1; i<nomeCompleto.length(); i++){
+            if(Character.isLetter(nomeCompleto.charAt(i))){
+                temSobrenome = true;
+                break;
+            }
+        }
+        if(!temSobrenome){
+            throw new InvalidNameException("Pet deve ter um sobrenome");
+        }
         this.nomeCompleto = nomeCompleto;
     }
 
