@@ -62,4 +62,15 @@ class PetTest {
         dog.setIdade(1.3);
         assertEquals(1,dog.getIdade());
     }
+
+    @Test
+    void shouldThrownExceptionIfPetBreedContainsSpecialCharactersOrNumbers(){
+        InvalidNameException exception = assertThrows(InvalidNameException.class,()-> dog.setRaca("Pastor alem@o"));
+    }
+
+    @Test
+    void shouldPutConstantNotInformedIfPetBreedIsNotInformed(){
+        dog.setRaca("");
+        assertEquals("NÃO INFORMADO",dog.getRaca());
+    }
 }

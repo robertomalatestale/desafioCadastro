@@ -5,8 +5,11 @@ import org.aplicacao.controller.InvalidPetAgeException;
 import org.aplicacao.controller.InvalidPetWeightException;
 
 public class Pet {
+    private static final String NAO_INFORMADO = "NÃO INFORMADO";
+
     private String nomeCompleto;
     private TipoPet tipoPet;
+    private Sexo sexo;
     private Endereco endereco;
     private double idade;
     private double peso;
@@ -97,6 +100,15 @@ public class Pet {
     }
 
     public void setRaca(String raca) {
+        if(raca == null || raca.trim().isEmpty()){
+            this.raca = NAO_INFORMADO;
+            return;
+        }
+        for(int i = 0; i<raca.length(); i++){
+            if(!Character.isLetter(raca.charAt(i)) && !Character.isWhitespace(raca.charAt(i))){
+                throw new InvalidNameException("Raça deve conter somente letras");
+            }
+        }
         this.raca = raca;
     }
 
