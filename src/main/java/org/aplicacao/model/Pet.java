@@ -59,6 +59,14 @@ public class Pet {
         this.tipoPet = tipoPet;
     }
 
+    public Sexo getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(Sexo sexo) {
+        this.sexo = sexo;
+    }
+
     public Endereco getEndereco() {
         return endereco;
     }
