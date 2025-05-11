@@ -1,0 +1,7 @@
+1 - Maria Joaquina
+2 - CACHORRO
+3 - FEMININO
+4 - Rua das Flores, 87, Anapólis
+5 - 4.0 anos
+6 - 12.3kg
+7 - Poodle

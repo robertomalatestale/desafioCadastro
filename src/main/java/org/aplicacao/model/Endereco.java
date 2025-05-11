@@ -2,6 +2,8 @@ package org.aplicacao.model;
 
 import org.aplicacao.controller.InvalidNameException;
 
+import java.util.Scanner;
+
 public class Endereco {
     private String logradouro;
     private Integer numero;
@@ -35,5 +37,16 @@ public class Endereco {
             throw new InvalidNameException("Campo cidade não pode ficar vazio");
         }
         this.cidade = cidade;
+    }
+
+    public void setEnderecoInput(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Informe seu logradouro: ");
+        setLogradouro(scanner.nextLine());
+        System.out.println("Informe o número da sua residência: ");
+        setNumero(scanner.nextInt());
+        scanner.nextLine();
+        System.out.println("Informe sua cidade: ");
+        setCidade(scanner.nextLine());
     }
 }
