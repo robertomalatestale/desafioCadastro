@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class PetCrudService {
 
@@ -40,8 +41,16 @@ public class PetCrudService {
     }
 
     public void searchPet(){
+        Object petAttributeInput1;
+        Object petAttributeInput2;
         String petTypeInput = crudView.searchPetType();
-
+        List<Integer> userSearchChoices = crudView.searchPetOptions();
+        if(userSearchChoices.size() == 2){
+            petAttributeInput1 = crudView.getSearchInput(userSearchChoices.get(0));
+            petAttributeInput2 = crudView.getSearchInput(userSearchChoices.get(1));
+        } else if(userSearchChoices.size() == 1) {
+            petAttributeInput1 = crudView.getSearchInput(userSearchChoices.get(0));
+        }
     }
 
     public void finish(){

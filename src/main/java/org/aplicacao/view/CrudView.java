@@ -97,5 +97,35 @@ public class CrudView {
         return optionsChoose;
     }
 
+    public Object getSearchInput(int option){
+        switch (option){
+            case 1:
+                System.out.println("Digite o nome e sobrenome do pet:");
+                return scanner.nextLine();
+            case 2:
+                System.out.println("Digite o sexo do pet:");
+                return Sexo.identifyGender(scanner.nextLine());
+            case 3:
+                System.out.println("Digite a idade do pet:");
+                double idade = scanner.nextDouble();
+                scanner.nextLine();
+                return idade;
+            case 4:
+                System.out.println("Digite o peso do pet:");
+                double peso = scanner.nextDouble();
+                scanner.nextLine();
+                return peso;
+            case 5:
+                System.out.println("Digite a raça do pet:");
+                return scanner.nextLine();
+            case 6:
+                System.out.println("Digite o endereço");
+                return scanner.nextLine();
+            default:
+                throw new InvalidInputException("Opção inválida");
+        }
+
+    }
+
 
 }
