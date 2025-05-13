@@ -1,6 +1,7 @@
 package org.aplicacao.service;
 
 import org.aplicacao.model.Pet;
+import org.aplicacao.view.CrudView;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,6 +13,8 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 public class PetCrudService {
+
+    private CrudView crudView = new CrudView();
 
     public String getPetId(Pet pet){
         LocalTime now = LocalTime.now();
@@ -34,6 +37,11 @@ public class PetCrudService {
         } catch(IOException e){
             e.printStackTrace();
         }
+    }
+
+    public void searchPet(){
+        String petTypeInput = crudView.searchPetType();
+
     }
 
     public void finish(){
