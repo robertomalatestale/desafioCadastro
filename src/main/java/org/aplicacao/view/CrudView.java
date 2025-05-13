@@ -49,38 +49,53 @@ public class CrudView {
     }
 
     public String searchPetType(){
-        System.out.println("Para começarmos a busca, digite o tipo do animal (cachorro ou gato");
+        System.out.println("Para começarmos a busca, digite o tipo do animal (cachorro ou gato)");
         return String.valueOf(TipoPet.identifyPetType(scanner.nextLine()));
+    }
+
+    public String showOptionName(int option){
+        return switch (option){
+            case 1 -> "Nome ou Sobrenome";
+            case 2 -> "Sexo";
+            case 3 -> "Idade";
+            case 4 -> "Peso";
+            case 5 -> "Raça";
+            case 6 -> "Endereço";
+            default -> throw new InvalidInputException("Número inválido");
+        };
+    }
+
+    private int askOption(String message, List<Integer> optionsChoose){
+        System.out.println(message);
+        int opcao = scanner.nextInt();
+        scanner.nextLine();
+        if(optionsChoose.contains(opcao)){
+            throw new InvalidInputException("Escolha uma opção diferente da primeira que você já selecionou");
+        }
+        if(opcao < 1 || opcao > 6){
+            throw new InvalidInputException("Escolha um número correspondente");
+        }
+        return opcao;
     }
 
     public List<Integer> searchPetOptions(){
         List<Integer> optionsChoose = new ArrayList<>();
-        System.out.println("Escolha 1 atributo para buscar o pet, informe o número correspondente a opção");
-        System.out.println("1 - Nome ou Sobrenome\n2 - Sexo\n3 - Idade\n4 - Peso\n5 - Raça\n6 - Endereço");
-        int firstChoice = scanner.nextInt();
-        scanner.nextLine();
-        if(firstChoice <1 || firstChoice>6){
-            throw new InvalidInputException("Escolha um número correspondente");
-        }
+        int firstChoice = askOption("Escolha 1 atributo para buscar o pet, informe o número correspondente a opção\n1 - Nome ou Sobrenome\n2 - Sexo\n3 - Idade\n4 - Peso\n5 - Raça\n6 - Endereço",optionsChoose);
         optionsChoose.add(firstChoice);
+        System.out.println("Você selecionou: " + showOptionName(firstChoice));
         System.out.println("Deseja procurar por mais algum atributo? Digite y se sim ou n para não");
         String oneMoreAttributeChoice = scanner.nextLine();
         if(!oneMoreAttributeChoice.equalsIgnoreCase("y") && !oneMoreAttributeChoice.equalsIgnoreCase("n")){
             throw new InvalidInputException("Digite y ou n");
         }
         if(oneMoreAttributeChoice.equalsIgnoreCase("y")){
-            System.out.println("Escolha mais 1 atributo para buscar o pet, informe o número correspondente a opção (EXCETO O ATRIBUTO QUE VOCÊ JÁ SELECIONOU ANTERIORMENTE");
-            int secondChoice = scanner.nextInt();
-            scanner.nextLine();
-            if(secondChoice == firstChoice){
-                throw new InvalidInputException("Escolha uma opção diferente da primeira que você já selecionou");
-            }
-            if(secondChoice <1 || secondChoice>6){
-                throw new InvalidInputException("Escolha um número correspondente");
-            }
+            int secondChoice = askOption("Escolha mais 1 atributo para buscar o pet, informe o número correspondente a opção (EXCETO O ATRIBUTO QUE VOCÊ JÁ SELECIONOU ANTERIORMENTE",optionsChoose);
             optionsChoose.add(secondChoice);
+            System.out.println("Você selecionou: " + showOptionName(secondChoice));
             return optionsChoose;
         }
         return optionsChoose;
     }
+
+
 }
