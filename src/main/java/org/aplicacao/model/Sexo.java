@@ -3,8 +3,8 @@ package org.aplicacao.model;
 import org.aplicacao.controller.InvalidInputException;
 
 public enum Sexo {
-    MASCULINO(new String[]{"m","masculino","macho","male"}),
-    FEMININO(new String[]{"f","feminino","femea","fêmea","female"});
+    MACHO(new String[]{"m","masculino","macho","male"}),
+    FEMEA(new String[]{"f","feminino","femea","fêmea","female"});
 
     private final String[] aliases;
 
