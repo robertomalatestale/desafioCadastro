@@ -42,6 +42,19 @@ public class PetCrudService {
         }
     }
 
+    public void printAllPets(){
+        File directory = new File("petsCadastrados");
+        File[] files = directory.listFiles((dir,name) -> name.endsWith(".txt"));
+        int i = 0;
+        if(files == null || files.length == 0){
+            System.out.println("Nenhum arquivo encontrado");
+            return;
+        }
+        for (File file:files){
+            crudView.printSearchedPetsFormatted(file,i++);
+        }
+    }
+
     public void searchPet(){
         Object petAttributeInput1 = null;
         Object petAttributeInput2 = null;

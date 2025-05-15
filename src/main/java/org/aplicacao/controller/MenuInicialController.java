@@ -31,6 +31,9 @@ public class MenuInicialController {
                     crudView.assignPetInputs(newPet);
                     petCrudService.createPet(newPet);
                     break;
+                case 4:
+                    petCrudService.printAllPets();
+                    break;
                 case 5:
                     petCrudService.searchPet();
                     break;
