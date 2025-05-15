@@ -3,13 +3,17 @@ package org.aplicacao.view;
 import org.aplicacao.controller.InvalidInputException;
 import org.aplicacao.model.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CrudView {
 
@@ -124,8 +128,44 @@ public class CrudView {
             default:
                 throw new InvalidInputException("Opção inválida");
         }
-
     }
 
+    public void printSearchedPetsFormatted(File file, int petOrder){
+        try{
+            List <String> lines = Files.readAllLines(file.toPath());
+            System.out.printf(petOrder + ". ");
+            for(int i = 0; i < lines.size(); i++){
+                String formattedLine = lines.get(i).replaceFirst("^\\d+\\s*-\\s*", "").trim(); //Remove the initial number with the hyphen
+                System.out.printf(formattedLine);
+                if(i<lines.size() - 1){
+                    System.out.printf(" - ");
+                }
+            }
+            System.out.println();
+        } catch (IOException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public String toLowerCaseAndRemoveAccent(String input) {
+        return Normalizer.normalize(input, Normalizer.Form.NFD)
+                .replaceAll("[^\\p{ASCII}]", "")
+                .toLowerCase()
+                .trim();
+    }
+
+    public boolean matchesNumericAttribute(String text, double value, String... units) {
+        for (String unit : units) {
+            Pattern pattern = Pattern.compile("(\\d+(\\.\\d+)?)\\s*" + unit);
+            Matcher matcher = pattern.matcher(text);
+            while (matcher.find()) {
+                double extracted = Double.parseDouble(matcher.group(1));
+                if (Double.compare(extracted, value) == 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
 }
