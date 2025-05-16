@@ -189,4 +189,10 @@ public class CrudView {
         return totalPets.get(choice - 1);
     }
 
+    public String confirmsPetDelete(){
+        System.out.println("Tem certeza que deseja deletar esse pet do sistema?");
+        System.out.println("Digite SIM para confirmar a exclusão ou NÃO para cancelar a operação");
+        return scanner.nextLine();
+    }
+
 }

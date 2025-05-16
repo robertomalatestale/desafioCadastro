@@ -41,13 +41,32 @@ public class PetCrudService {
         }
     }
 
+    public void updatePet(){
+        List<File> petsSearchedToUpdate = searchPet();
+        File petToUpdate = crudView.selectPetInSearchFieldFromUser(petsSearchedToUpdate,"atualizar");
+        if(petToUpdate == null){
+            return;
+        }
+
+    }
+
     public void deletePet(){
         List<File> petsSearchedToDelete = searchPet();
         File petToDelete = crudView.selectPetInSearchFieldFromUser(petsSearchedToDelete,"deletar");
         if(petToDelete == null ){
             return;
         }
-        petToDelete.delete();
+        String userConfirmationToDelete = crudView.confirmsPetDelete();
+        while(!userConfirmationToDelete.equalsIgnoreCase("Sim") && !userConfirmationToDelete.equalsIgnoreCase("Não")){
+            userConfirmationToDelete = crudView.confirmsPetDelete();
+        }
+        if(userConfirmationToDelete.equalsIgnoreCase("Sim")){
+            petToDelete.delete();
+            System.out.println("PET DELETADO COM SUCESSO");
+        } else {
+            System.out.println("OPERAÇÃO CANCELADA, APLICAÇÃO FINALIZADA");
+        }
+
     }
 
     public void printAllPets(){
