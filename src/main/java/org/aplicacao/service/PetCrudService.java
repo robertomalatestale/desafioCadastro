@@ -10,7 +10,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +43,11 @@ public class PetCrudService {
 
     public void deletePet(){
         List<File> petsSearchedToDelete = searchPet();
-        crudView.getPetInSearchFieldFromUser(petsSearchedToDelete.size(),"deletar");
+        File petToDelete = crudView.selectPetInSearchFieldFromUser(petsSearchedToDelete,"deletar");
+        if(petToDelete == null ){
+            return;
+        }
+        petToDelete.delete();
     }
 
     public void printAllPets(){

@@ -168,4 +168,25 @@ public class CrudView {
         return false;
     }
 
+    public File selectPetInSearchFieldFromUser(List<File> totalPets, String operation){
+        if(totalPets.isEmpty()){
+            System.out.println("Não é possível " + operation + " pois não existem pets com esses critérios");
+            return null;
+        }
+        System.out.println("Digite o número do pet que deseja " + operation + " (ou se deseja cancelar a operação e finalizar, digite 0): ");
+        int choice = -1;
+        choice = scanner.nextInt();
+        scanner.nextLine();
+        while (choice < 0 || choice > totalPets.size()){
+            System.out.println("Digite um número válido conforme as opções");
+            choice = scanner.nextInt();
+            scanner.nextLine();
+        }
+        if (choice == 0){
+            System.out.println("OPERAÇÃO CANCELADA, SAINDO DA APLICAÇÃO");
+            return null;
+        }
+        return totalPets.get(choice - 1);
+    }
+
 }
