@@ -42,10 +42,15 @@ public class PetCrudService {
         }
     }
 
+    public void deletePet(){
+        List<File> petsSearchedToDelete = searchPet();
+        crudView.getPetInSearchFieldFromUser(petsSearchedToDelete.size(),"deletar");
+    }
+
     public void printAllPets(){
         File directory = new File("petsCadastrados");
         File[] files = directory.listFiles((dir,name) -> name.endsWith(".txt"));
-        int i = 0;
+        int i = 1;
         if(files == null || files.length == 0){
             System.out.println("Nenhum arquivo encontrado");
             return;
@@ -55,7 +60,7 @@ public class PetCrudService {
         }
     }
 
-    public void searchPet(){
+    public List<File> searchPet(){
         Object petAttributeInput1 = null;
         Object petAttributeInput2 = null;
         String petTypeInput = crudView.searchPetType();
@@ -67,7 +72,7 @@ public class PetCrudService {
             petAttributeInput1 = crudView.getSearchInput(userSearchChoices.get(0));
         }
 
-        searchPetInFiles(petTypeInput, petAttributeInput1, petAttributeInput2);
+        return searchPetInFiles(petTypeInput, petAttributeInput1, petAttributeInput2);
     }
 
     public List<File> searchPetInFiles(String petType, Object attribute1, Object attribute2){
