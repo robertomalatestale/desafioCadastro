@@ -189,6 +189,29 @@ public class CrudView {
         return totalPets.get(choice - 1);
     }
 
+    public int selectPetAttributeToUpdate(){
+        int choice = -1;
+        while(choice < 0 || choice > 5) {
+            System.out.println("Digite qual dos atributos abaixo do Pet deseja modificar (ou digite 0 para cancelar a operação)");
+            System.out.println("1 - Nome e sobrenome\n2 - Endereço\n3 - Idade\n4 - Peso\n5 - Raça");
+            choice = scanner.nextInt();
+            scanner.nextLine();
+        }
+        return choice;
+    }
+
+    public String getUserInput(String message){
+        System.out.println(message);
+        return scanner.nextLine();
+    }
+
+    public double getDoubleInput(String prompt){
+        System.out.println(prompt);
+        double input = scanner.nextDouble();
+        scanner.nextLine();
+        return input;
+    }
+
     public String confirmsPetDelete(){
         System.out.println("Tem certeza que deseja deletar esse pet do sistema?");
         System.out.println("Digite SIM para confirmar a exclusão ou NÃO para cancelar a operação");

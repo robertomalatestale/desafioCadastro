@@ -1,5 +1,6 @@
 package org.aplicacao.service;
 
+import org.aplicacao.model.Endereco;
 import org.aplicacao.model.Pet;
 import org.aplicacao.view.CrudView;
 
@@ -42,12 +43,47 @@ public class PetCrudService {
     }
 
     public void updatePet(){
+        Pet pet = new Pet();
+        Endereco endereco = new Endereco();
         List<File> petsSearchedToUpdate = searchPet();
         File petToUpdate = crudView.selectPetInSearchFieldFromUser(petsSearchedToUpdate,"atualizar");
         if(petToUpdate == null){
             return;
         }
-
+        int attributeToUpdate = crudView.selectPetAttributeToUpdate();
+        if(attributeToUpdate == 0){
+            System.out.println("OPERAÇÃO CANCELADA, SAINDO DA APLICAÇÃO");
+            return;
+        }
+        try{
+            List<String> lines = Files.readAllLines(petToUpdate.toPath());
+            switch (attributeToUpdate){
+                case 1:
+                    pet.setNomeCompleto(crudView.getUserInput("Digite o novo nome e sobrenome do pet: "));
+                    lines.set(0,"1 - " + pet.getNomeCompleto());
+                case 2:
+                    endereco.setEnderecoInput();
+                    lines.set(3,"4 - " + endereco.getLogradouro() + ", " + endereco.getNumero() + ", " + endereco.getCidade());
+                    break;
+                case 3:
+                    pet.setIdade(crudView.getDoubleInput("Digite a nova idade do pet: "));
+                    lines.set(4,"5 - " + pet.getIdade() + " anos");
+                    break;
+                case 4:
+                    pet.setPeso(crudView.getDoubleInput("Digite o novo peso do pet: "));
+                    lines.set(5,"6 - " + pet.getPeso() + "kg");
+                    break;
+                case 5:
+                    pet.setRaca(crudView.getUserInput("Digite a nova raça do pet: "));
+                    lines.set(6,"7 - " + pet.getRaca());
+                default:
+                    break;
+            }
+            Files.write(petToUpdate.toPath(),lines);
+            System.out.println("PET ATUALIZADO COM SUCESSO!");
+        } catch (IOException e){
+            System.out.println("Falha ao atualizar o pet: " + e.getMessage());
+        }
     }
 
     public void deletePet(){

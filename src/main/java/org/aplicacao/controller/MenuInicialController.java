@@ -31,6 +31,14 @@ public class MenuInicialController {
                     crudView.assignPetInputs(newPet);
                     petCrudService.createPet(newPet);
                     break;
+                case 2:
+                    System.out.println("Destarte, busque e selecione o pet que deseja atualizar");
+                    petCrudService.updatePet();
+                    break;
+                case 3:
+                    System.out.println("Destarte, busque e selecione o pet que deseja deletar");
+                    petCrudService.deletePet();
+                    break;
                 case 4:
                     petCrudService.printAllPets();
                     break;
