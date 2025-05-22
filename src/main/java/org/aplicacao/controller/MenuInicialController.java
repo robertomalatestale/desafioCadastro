@@ -7,16 +7,32 @@ import org.aplicacao.view.CrudView;
 import org.aplicacao.view.MenuInicialView;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MenuInicialController {
     private MenuInicial menuInicial = new MenuInicial();
     private MenuInicialView menuInicialView = new MenuInicialView();
     private PetCrudService petCrudService = new PetCrudService();
-    CrudView crudView = new CrudView();
-    private Integer answer = -1;
+    private CrudView crudView = new CrudView();
+    private Map<Integer, Runnable> functions = new HashMap<>();
+
+    public MenuInicialController() {
+        initializeMapFunctions();
+    }
+
+    private void initializeMapFunctions(){
+        functions.put(1, () -> createPet());
+        functions.put(2, () -> updatePet());
+        functions.put(3, () -> deletePet());
+        functions.put(4, () -> showAllPets());
+        functions.put(5, () -> searchPet());
+        functions.put(6, () -> exitApplication());
+    }
 
 
     public void initializeQuestionary(){
+        int answer = -1;
         while(answer>menuInicial.getPerguntas().size() || answer<0){
             menuInicialView.showOptions();
             answer = menuInicialView.getUserAnswer();
@@ -24,32 +40,41 @@ public class MenuInicialController {
                 System.out.println("Opção inválida, digite novamente");
                 answer = menuInicialView.getUserAnswer();
             }
-            switch(answer){
-                case 1:
-                    Pet newPet = new Pet();
-                    showQuestions();
-                    crudView.assignPetInputs(newPet);
-                    petCrudService.createPet(newPet);
-                    break;
-                case 2:
-                    System.out.println("Destarte, busque e selecione o pet que deseja atualizar");
-                    petCrudService.updatePet();
-                    break;
-                case 3:
-                    System.out.println("Destarte, busque e selecione o pet que deseja deletar");
-                    petCrudService.deletePet();
-                    break;
-                case 4:
-                    petCrudService.printAllPets();
-                    break;
-                case 5:
-                    petCrudService.searchPet();
-                    break;
-                case 6:
-                    petCrudService.finish();
-                    break;
+            if(functions.get(answer) != null){
+                functions.get(answer).run();
+            } else {
+                throw new InvalidInputException("Opção inválida");
             }
         }
+    }
+
+    private void createPet(){
+        Pet newPet = new Pet();
+        showQuestions();
+        crudView.assignPetInputs(newPet);
+        petCrudService.createPet(newPet);
+    }
+
+    private void updatePet(){
+        System.out.println("Destarte, busque e selecione o pet que deseja atualizar");
+        petCrudService.updatePet();
+    }
+
+    private void deletePet(){
+        System.out.println("Destarte, busque e selecione o pet que deseja deletar");
+        petCrudService.deletePet();
+    }
+
+    private void showAllPets(){
+        petCrudService.printAllPets();
+    }
+
+    private void searchPet(){
+        petCrudService.searchPet();
+    }
+
+    private void exitApplication(){
+        petCrudService.finish();
     }
 
     public void showQuestions() {
